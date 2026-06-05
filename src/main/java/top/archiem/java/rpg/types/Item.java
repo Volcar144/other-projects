@@ -6,11 +6,13 @@ public class Item{
     //The value to increase based on the type of item
     private int value;
     private String name;
+    private int goldValue;
 
-    public Item(ItemTypes type, int value, String name){
+    public Item(ItemTypes type, int value, String name, int goldValue){
         this.type = type;
         this.value = value;
         this.name = name;
+        this.goldValue = goldValue;
     }
 
     public ItemTypes getItemType(){
@@ -23,5 +25,29 @@ public class Item{
 
     public String getName(){
         return name;
+    }
+
+    public int getGoldValue(){
+        return goldValue;
+    }
+
+    public String getStat(){
+        switch(type){
+            case POTION -> {
+                return "health";
+            }
+            case ARMOUR -> {
+                return "defense";
+            }
+            case WEAPON -> {
+                return "attack";
+            }
+
+        }
+        return "unknown";
+    }
+
+    public void describe(){
+        System.out.println("[" + type.toString() + "] " + name + " - +" + String.valueOf(value) + " " + getStat() + " (" + String.valueOf(goldValue) + " gold)");
     }
 }
