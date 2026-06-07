@@ -78,6 +78,10 @@ public class Room {
         return connections.containsKey(direction);
     }
 
+    public Room getConnectedRoom(String direction){
+        return connections.get(direction);
+    }
+
     public void addExit(String direction, Room room){
         connections.put(direction, room);
     }
@@ -90,6 +94,12 @@ public class Room {
         items.add(item);
     }
 
+    public void removeItem(Item item){
+        if(items.contains(item)){
+            items.remove(item);
+        }
+    }
+
     public boolean hasAliveEnemies(){
         for(Enemy i : enemies){
             if(i.isAlive()){
@@ -97,6 +107,13 @@ public class Room {
             }
         }
         return false;
+    }
+
+    public Enemy getEnemyByName(String name) {
+        return enemies.stream()
+            .filter(enemy -> enemy.getName().equalsIgnoreCase(name))
+            .findFirst()
+            .orElse(null);
     }
 
     public void setIsShop(boolean b){
@@ -109,6 +126,10 @@ public class Room {
 
     public void setIsStart(boolean b){
         isStart = b;
+    }
+
+    public boolean isStart(){
+        return isStart;    
     }
 
 }

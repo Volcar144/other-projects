@@ -9,10 +9,6 @@ public class Enemy extends Entity{
 
     String name;
 
-    private int hp;
-    private int maxHp;
-    private int defense;
-    private int attack;
     private int goldReward;
     private int xpReward;
     private double lootChance;
@@ -72,7 +68,7 @@ public class Enemy extends Entity{
             int itemNum = r.nextInt(0, lootpool.size());
             return lootpool.get(itemNum);
         } else {
-            return new Item(ItemTypes.DUMMY, 0, "Dummy", 0);
+            return null;
         }
     }
 

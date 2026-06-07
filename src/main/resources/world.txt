@@ -1,0 +1,12 @@
+START:Dungeon Entrance
+ROOM:Dungeon Entrance:A cold stone archway. Torches flicker on damp walls.
+ROOM:Forest Path:A narrow path between twisted trees.
+EXIT:Dungeon Entrance:north:Forest Path
+EXIT:Forest Path:south:Dungeon Entrance
+ENEMY:Forest Path:Goblin
+ITEM:Dungeon Entrance:Health Potion:POTION:25:15
+SHOP:Merchant's Hut
+BOSS:Throne of Shadows
+ROOM:Merchant's Hut:A ramshackle hut. A hooded figure watches you.
+ROOM:Cave Entrance:A dark cave mouth. The air smells of iron.
+ROOM:Throne of Shadows:A vast chamber lit by green flame.

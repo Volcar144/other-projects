@@ -3,6 +3,7 @@ package top.archiem.java.rpg;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,20 +15,15 @@ import top.archiem.java.rpg.types.ItemTypes;
 import top.archiem.java.rpg.types.Room;
 
 public class WorldLoader{
+
+    private static String startRoomName;
     
     public static HashMap<String, Room> loadWorld(String fileName){
         List<String> lines = new ArrayList<>();
         HashMap<String, Room> rooms = new HashMap<>();
 
-        //Empty constants for creating rooms
-        HashMap<String, Room> emptyConnections = new HashMap<>();
-        ArrayList<Item> emptyItems = new ArrayList<>();
-        ArrayList<Enemy> emptyEnemies = new ArrayList<>();
-
-        String startRoomName = null;
-
         // Read file once and store all lines
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(WorldLoader.class.getResourceAsStream("/" + fileName)))) {
 
             String line;
 
@@ -50,9 +46,9 @@ public class WorldLoader{
         for(String line : lines){
             String[] parts = line.split(":");
 
-            if(parts[0] == "ROOM"){
+            if(parts[0].equals("ROOM")){
 
-                Room newRoom = new Room(emptyEnemies, emptyItems, emptyConnections, parts[2], parts[1]);
+                Room newRoom = new Room(new ArrayList<>(), new ArrayList<>(), new HashMap<>(), parts[2], parts[1]);
                 rooms.put(parts[1], newRoom);
 
             }
@@ -69,8 +65,8 @@ public class WorldLoader{
                         System.out.println("Warning: unknown room in ENEMY line - " + line);
                         break;
                     }
-                    startRoomName = parts[1];
                     originRoom.setIsStart(true);
+                    startRoomName = parts[1];
                 }
                 case "EXIT" -> {
                     Room originRoom = rooms.get(parts[1]);
@@ -135,6 +131,10 @@ public class WorldLoader{
         }
 
         return rooms;
+    }
+
+    public static String getStartRoom(){
+        return startRoomName;
     }
 
 }

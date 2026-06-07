@@ -47,7 +47,7 @@ public class Item{
         return "unknown";
     }
 
-    public void describe(){
-        System.out.println("[" + type.toString() + "] " + name + " - +" + String.valueOf(value) + " " + getStat() + " (" + String.valueOf(goldValue) + " gold)");
+    public String describe(){
+        return "[" + type.toString() + "] " + name + " - +" + String.valueOf(value) + " " + getStat() + " (" + String.valueOf(goldValue) + " gold)";
     }
 }

@@ -5,13 +5,10 @@ import java.util.List;
 
 public class Player extends Entity {
 
-    private int hp = 100;
-    private int maxHp = 100;
-    private int defense = 0;
-    private int attack = 05;
+
     private int xp = 0;
     private int gold = 0;
-    private int level = 0;
+    private int level = 1;
 
     private ArrayList<Item> inventory = new ArrayList<>();
     private Item equippedWeapon;
@@ -22,13 +19,17 @@ public class Player extends Entity {
     public Player(String name){
         this.name = name;
         
+        hp = 100;
+        maxHp = 100;
+        defense = 0;
+        attack = 05;
     }
 
     public int getHp(){
         return hp;
     }
 
-    public List getInventory(){
+    public ArrayList<Item> getInventory(){
         return inventory;
     }
 
@@ -79,8 +80,22 @@ public class Player extends Entity {
         } else if(item.getItemType() != ItemTypes.POTION){
             return;
         }
-        hp += item.getValue();
+        this.heal(item.getValue());
         inventory.remove(item);
+    }
+
+    public boolean hasItem(Item item){
+        if(inventory.contains(item)){
+            return true;
+        }
+        return false;
+    }
+
+    public Item getItemByName(String name) {
+        return inventory.stream()
+            .filter(item -> item.getName().equalsIgnoreCase(name))
+            .findFirst()
+            .orElse(null);
     }
 
     public void addXp(int toAdd){
@@ -129,10 +144,10 @@ public class Player extends Entity {
     public void printStats(){
         System.out.printf("""
                 ==== STATS ====
-                Hp: %i
-                Max Hp: %i
-                Defense: %i
-                Attack: %i
+                Hp: %d
+                Max Hp: %d
+                Defense: %d
+                Attack: %d
                 ===============
                 """, hp,maxHp, defense, attack);
     }
