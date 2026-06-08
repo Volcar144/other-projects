@@ -26,6 +26,10 @@ public abstract class Entity {
         hp = tempHealth;
     }
 
+    public int getAttack(){
+        return attack;
+    }
+
     public boolean isAlive(){
         if(hp == 0){
             return false;

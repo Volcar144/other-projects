@@ -35,17 +35,18 @@ public class GameEngine {
         currentRoom.describe();
         System.out.println("What do you want to do (type help if you need it)");
         String command = keyboard.nextLine().trim();
-        parseCommand(command);
+        parseCommand(command, keyboard);
         while(running){
             System.out.println("Take an action: ");
             command = keyboard.nextLine().trim();
-            parseCommand(command);
+            parseCommand(command, keyboard);
         }
+        keyboard.close();
 
 
     }
 
-    private void parseCommand(String input){
+    private void parseCommand(String input, Scanner keyboard){
         String[] part = input.split(" ",2);
 
         switch(part[0].toLowerCase()){
@@ -56,8 +57,18 @@ public class GameEngine {
                     return;
                 }
                 Room nextRoom = currentRoom.getConnectedRoom(direction);
-                currentRoom = nextRoom;
-                currentRoom.describe();
+                boolean move = false;
+                if(nextRoom.hasEnemies()){
+                    move = BattleSystem.runBattle(nextRoom, keyboard, player);
+                }
+                if(!move){
+                    if(player.getHp() == 0){
+                        System.out.println("You died...");
+                        running = false;
+                    }
+                    currentRoom = nextRoom;
+                    currentRoom.describe();
+                }
             }
             case "look" -> {
                 currentRoom.describe();
@@ -165,7 +176,7 @@ public class GameEngine {
                         ===================
                         """);
             }
-            case "exit" -> {
+            case "quit" -> {
                 running = false;
                 System.out.println("Quitting...");
             }

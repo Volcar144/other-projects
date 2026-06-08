@@ -48,22 +48,22 @@ public class Player extends Entity {
         if(item.getItemType() != ItemTypes.WEAPON){
             return;
         }
-        if(!equippedWeapon.equals(null)){
-            inventory.add(equippedWeapon);
+        if(equippedWeapon != null){
             attack -= equippedWeapon.getValue();
+            inventory.add(equippedWeapon);
         }
         if(inventory.contains(item)){
             inventory.remove(item);
         }
         equippedWeapon = item;
-        attack += equippedWeapon.getValue();
+        attack += item.getValue();
     }
 
     public void equipArmour(Item item){
         if(item.getItemType() != ItemTypes.ARMOUR){
             return;
         }
-        if(!equippedArmour.equals(null)){
+        if(equippedArmour != null){
             inventory.add(equippedArmour);
             defense -= equippedArmour.getValue();
         }
