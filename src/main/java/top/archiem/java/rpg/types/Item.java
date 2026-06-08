@@ -1,5 +1,7 @@
 package top.archiem.java.rpg.types;
 
+import top.archiem.java.rpg.AnsiColors;
+
 public class Item{
     private ItemTypes type;
 
@@ -48,6 +50,11 @@ public class Item{
     }
 
     public String describe(){
-        return "[" + type.toString() + "] " + name + " - +" + String.valueOf(value) + " " + getStat() + " (" + String.valueOf(goldValue) + " gold)";
+        String typeLabel = switch(type){
+            case POTION -> AnsiColors.yellow("[POTION]");
+            case ARMOUR -> AnsiColors.cyan("[ARMOUR]");
+            case WEAPON -> AnsiColors.red("[WEAPON]");
+        };
+        return typeLabel + " " + AnsiColors.bold(name) + " - +" + String.valueOf(value) + " " + getStat() + " (" + String.valueOf(goldValue) + " gold)";
     }
 }

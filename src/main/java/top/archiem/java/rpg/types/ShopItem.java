@@ -1,5 +1,7 @@
 package top.archiem.java.rpg.types;
 
+import top.archiem.java.rpg.AnsiColors;
+
 public class ShopItem extends Item{
     int cost;
 
@@ -14,7 +16,7 @@ public class ShopItem extends Item{
 
     @Override
     public String describe() {
-        return "[" + getItemType().toString() + "] " + getName() + " - +" + String.valueOf(getValue()) + " " + getStat() + " cost: " + cost + " gold";
+        return super.describe() + " " + AnsiColors.yellow("cost: " + cost + " gold");
     }
 
     public int getCost(){

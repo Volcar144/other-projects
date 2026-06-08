@@ -2,6 +2,7 @@ package top.archiem.java.rpg.types;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import top.archiem.java.rpg.AnsiColors;
 
 public class Room {
 
@@ -42,23 +43,23 @@ public class Room {
     }
 
     public void describe(){
-        System.out.println("You walk into " + description);
-        System.out.println("In this room you can go in one of the following directions: ");
+        System.out.println(AnsiColors.blue("You walk into " + AnsiColors.bold(description)));
+        System.out.println(AnsiColors.cyan("In this room you can go in one of the following directions: "));
         for(String i: connections.keySet()){
-            System.out.println(i + ",");
+            System.out.println(AnsiColors.yellow(i));
         }
     }
 
     public void search(){
-        System.out.print("You search high and low to find");
+        System.out.print(AnsiColors.yellow("You search high and low to find"));
         if(items.isEmpty()){
-            System.out.println(" nothing.");
+            System.out.println(AnsiColors.red(" nothing."));
             return;
         }
-        System.out.println(":");
+        System.out.println(AnsiColors.yellow(":"));
 
         for(Item i: items){
-            System.out.println(i.getName() + ",");
+            System.out.println(AnsiColors.green(i.getName()) + ",");
         }
 
     }
@@ -76,6 +77,9 @@ public class Room {
 
     public boolean hasEnemies(){
         return !enemies.isEmpty();
+    }
+    public boolean isBossRoom(){
+        return isBossRoom;
     }
 
     public boolean connectionExists(String direction){

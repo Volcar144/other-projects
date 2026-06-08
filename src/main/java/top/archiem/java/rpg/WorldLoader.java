@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import top.archiem.java.rpg.AnsiColors;
 import top.archiem.java.rpg.types.Enemy;
 import top.archiem.java.rpg.types.Item;
 import top.archiem.java.rpg.types.ItemTypes;
@@ -39,7 +40,7 @@ public class WorldLoader{
             }
 
         } catch (IOException e) {
-            System.out.println("Failed to load world file: " + fileName);
+            System.out.println(AnsiColors.red("Failed to load world file: " + fileName));
             return null;
         }
 
@@ -62,7 +63,7 @@ public class WorldLoader{
                 case "START" -> {
                     Room originRoom = rooms.get(parts[1]);
                     if(originRoom == null){
-                        System.out.println("Warning: unknown room in ENEMY line - " + line);
+                        System.out.println(AnsiColors.yellow("Warning: unknown room in START line - " + line));
                         break;
                     }
                     originRoom.setIsStart(true);
@@ -73,7 +74,7 @@ public class WorldLoader{
                     String direction = parts[2];
                     Room destination = rooms.get(parts[3]);
                     if (originRoom == null || destination == null) {
-                        System.out.println("Warning: unknown room in EXIT line - " + line);
+                        System.out.println(AnsiColors.yellow("Warning: unknown room in EXIT line - " + line));
                         break;
                     }
                     originRoom.addExit(direction, destination);
@@ -123,7 +124,7 @@ public class WorldLoader{
                 case "ITEM" -> {
                     Room originRoom = rooms.get(parts[1]);
                     if(originRoom == null){
-                        System.out.println("Warning: unknown room in ENEMY line - " + line);
+                        System.out.println(AnsiColors.yellow("Warning: unknown room in ITEM line - " + line));
                         break;
                     }
                     Item newItem = new Item(ItemTypes.valueOf(parts[3]), Integer.valueOf(parts[4]), parts[2], Integer.valueOf(parts[5]));
@@ -132,7 +133,7 @@ public class WorldLoader{
                 case "SHOP" -> {
                     Room originRoom = rooms.get(parts[1]);
                     if(originRoom == null){
-                        System.out.println("Warning: unknown room in ENEMY line - " + line);
+                        System.out.println(AnsiColors.yellow("Warning: unknown room in SHOP line - " + line));
                         break;
                     }
 
@@ -141,7 +142,7 @@ public class WorldLoader{
                 case "BOSS" -> {
                     Room originRoom = rooms.get(parts[1]);
                     if(originRoom == null){
-                        System.out.println("Warning: unknown room in ENEMY line - " + line);
+                        System.out.println(AnsiColors.yellow("Warning: unknown room in BOSS line - " + line));
                         break;
                     }
                     

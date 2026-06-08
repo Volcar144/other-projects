@@ -2,6 +2,7 @@ package top.archiem.java.rpg.types;
 
 import java.util.ArrayList;
 import java.util.List;
+import top.archiem.java.rpg.AnsiColors;
 
 public class Player extends Entity {
 
@@ -134,22 +135,20 @@ public class Player extends Entity {
     }
 
     public void printInventory(){
-        System.out.println("==== INVENTORY ====");
+        System.out.println(AnsiColors.cyan(AnsiColors.bold("==== INVENTORY ==== ")));
         for(Item item : inventory){
-            System.out.println(item.getName() + ",");
+            System.out.println(AnsiColors.yellow(item.getName()) + ",");
         }
-        System.out.println("===================");
+        System.out.println(AnsiColors.cyan(AnsiColors.bold("===================")));
     }
 
     public void printStats(){
-        System.out.printf("""
-                ==== STATS ====
-                Hp: %d
-                Max Hp: %d
-                Defense: %d
-                Attack: %d
-                ===============
-                """, hp,maxHp, defense, attack);
+        System.out.println(AnsiColors.cyan(AnsiColors.bold("==== STATS ==== ")));
+        System.out.println(AnsiColors.yellow("Hp: ") + AnsiColors.green(String.valueOf(hp)));
+        System.out.println(AnsiColors.yellow("Max Hp: ") + AnsiColors.green(String.valueOf(maxHp)));
+        System.out.println(AnsiColors.yellow("Defense: ") + AnsiColors.green(String.valueOf(defense)));
+        System.out.println(AnsiColors.yellow("Attack: ") + AnsiColors.green(String.valueOf(attack)));
+        System.out.println(AnsiColors.cyan(AnsiColors.bold("===============")));
     }
 
 }
