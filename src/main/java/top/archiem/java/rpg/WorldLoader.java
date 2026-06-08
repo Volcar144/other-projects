@@ -97,7 +97,27 @@ public class WorldLoader{
                         case "dragon" -> {
                             originRoom.addEnemy(Enemy.dragon());
                         }
-                        
+                        case "forest spider" -> {
+                            originRoom.addEnemy(Enemy.forestSpider());
+                        }
+                        case "skeleton warrior" -> {
+                            originRoom.addEnemy(Enemy.skeletonWarrior());
+                        }
+                        case "ghoul" -> {
+                            originRoom.addEnemy(Enemy.ghoul());
+                        }
+                        case "spectral librarian" -> {
+                            originRoom.addEnemy(Enemy.spectralLibrarian());
+                        }
+                        case "shadow knight" -> {
+                            originRoom.addEnemy(Enemy.shadowKnight());
+                        }
+                        case "dark mage" -> {
+                            originRoom.addEnemy(Enemy.darkMage());
+                        }
+                        case "slime" -> {
+                            originRoom.addEnemy(Enemy.slime());
+                        }
                     }
                 }
                 case "ITEM" -> {

@@ -84,6 +84,34 @@ public class Enemy extends Entity{
         return new Enemy("skeleton",40, 40, 2, 14, 30, 60, 0.42);
     }
 
+    public static Enemy forestSpider(){
+        return new Enemy("forest spider",18, 18, 0, 5, 8, 18, 0.18);
+    }
+
+    public static Enemy skeletonWarrior(){
+        return new Enemy("skeleton warrior",48, 48, 3, 16, 35, 70, 0.45);
+    }
+
+    public static Enemy ghoul(){
+        return new Enemy("ghoul",44, 44, 4, 12, 25, 50, 0.35);
+    }
+
+    public static Enemy spectralLibrarian(){
+        return new Enemy("spectral librarian",36, 36, 5, 14, 40, 60, 0.40);
+    }
+
+    public static Enemy shadowKnight(){
+        return new Enemy("shadow knight",52, 52, 6, 17, 50, 75, 0.45);
+    }
+
+    public static Enemy darkMage(){
+        return new Enemy("dark mage",30, 30, 2, 18, 30, 65, 0.50);
+    }
+
+    public static Enemy slime(){
+        return new Enemy("slime",20, 20, 1, 3, 5, 10, 0.20);
+    }
+
     public static Enemy dragon(){
         return new Enemy("dragon",90, 90, 6, 19, 45, 120, 1.0);
     }

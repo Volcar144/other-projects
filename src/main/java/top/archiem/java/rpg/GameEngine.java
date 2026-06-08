@@ -8,6 +8,7 @@ import top.archiem.java.rpg.types.Item;
 import top.archiem.java.rpg.types.ItemTypes;
 import top.archiem.java.rpg.types.Player;
 import top.archiem.java.rpg.types.Room;
+import top.archiem.java.rpg.types.ShopItem;
 
 public class GameEngine {
     Player player;
@@ -23,7 +24,6 @@ public class GameEngine {
         Scanner keyboard = new Scanner(System.in);
         System.out.println("Loading map...");
         rooms = WorldLoader.loadWorld("world.txt");
-        System.out.println(rooms.toString());
         currentRoom = rooms.get(WorldLoader.getStartRoom());
         System.out.println(WorldLoader.getStartRoom().toString());
         System.out.println("Welcome to jaRpg, an interactive dungeon crawler game");
@@ -68,6 +68,9 @@ public class GameEngine {
                     }
                     currentRoom = nextRoom;
                     currentRoom.describe();
+                }
+                if(currentRoom.isShop()){
+                    handleShop(currentRoom, keyboard);
                 }
             }
             case "look" -> {
@@ -156,6 +159,13 @@ public class GameEngine {
             case "load" -> {
                 //delegate to save/load manager
             }
+            case "shop" -> {
+                if(currentRoom.isShop()){
+                    handleShop(currentRoom, keyboard);
+                } else {
+                    System.out.println("Current room is not a shop!");
+                }
+            }
             case "help" -> {
                 System.out.println("""
                         ==== HELP MENU ====
@@ -196,12 +206,113 @@ public class GameEngine {
                             save - save(WIP)
                             load - load your save (WIP)
                             quit - exit the game
+                            shop - open the shop if in a shop room.
                             help - print this message
                         ===================
                         """);
             }
 
         }
+    }
+
+    private void handleShop(Room room, Scanner keyboard){
+        ArrayList<ShopItem> shopItems = new ArrayList<>();
+        shopItems.add(new ShopItem(ItemTypes.WEAPON, 02,"Broken Sword", 1,5));
+        shopItems.add(new ShopItem(ItemTypes.WEAPON, 05,"Rusty Sword", 6,9));
+        shopItems.add(new ShopItem(ItemTypes.WEAPON, 07,"Steel Sword", 13,19));
+        shopItems.add(new ShopItem(ItemTypes.WEAPON, 10,"Broadsword", 20,30));
+        shopItems.add(new ShopItem(ItemTypes.WEAPON, 15,"Enchanted Sword", 27,40));
+        shopItems.add(new ShopItem(ItemTypes.ARMOUR, 04,"Leather Armour", 7,10));
+        shopItems.add(new ShopItem(ItemTypes.ARMOUR, 07,"Chainmail Armour", 10,20));
+        shopItems.add(new ShopItem(ItemTypes.ARMOUR, 10,"Plate Armour", 20,30));
+        shopItems.add(new ShopItem(ItemTypes.POTION, 15,"Small Potion", 10,20));
+        shopItems.add(new ShopItem(ItemTypes.POTION, 25,"Medium Potion", 15,25));
+        shopItems.add(new ShopItem(ItemTypes.POTION, 50,"Large Potion", 20,30));
+        shopItems.add(new ShopItem(ItemTypes.POTION, 100,"Huge Potion", 30,40));
+
+        System.out.println("Welcome to the " + room.getName() + ", a shop");
+        boolean inShop = true;
+        while(inShop){
+        int choice = 0;
+        do{
+            System.out.println("What would you like to do: ");
+            System.out.println("[1] Buy | [2] Sell | [3] exit");
+            try {
+                choice = Integer.parseInt(keyboard.next());
+            } catch (Exception e) {
+                //  Ignore
+            }
+        } while(choice != 1 && choice != 2 && choice != 3);
+
+        switch(choice){
+            case 1 -> {
+                System.out.println("Items in stock: ");
+                for(ShopItem i : shopItems){
+                    int location = shopItems.indexOf(i) + 1;
+                    System.out.println("["+ location + "] " + i.describe());
+                }
+                int num = 900;
+                do{
+                    System.out.println("What item to buy (0 to exit)");
+                    try {
+                        num = Integer.parseInt(keyboard.next());
+                    } catch (Exception e) {
+                        //  Ignore
+                    }
+                } while (num == 900 || num < 0 || num > shopItems.size());
+                if(num == 0){
+                    break;
+                }
+                int index = num - 1;
+                ShopItem toBuy = shopItems.get(index);
+                if(!(player.getGold() >= toBuy.getCost())){
+                    int shortage = toBuy.getCost() - player.getGold();
+                    System.out.println("You are " + shortage + " gold short of this!");
+                    break;
+                }
+                Item toGive = toBuy.toItem();
+                player.pickupItem(toGive);
+                System.out.println("You recieved " + toGive.getName());
+            }
+            case 2 -> {
+                if(player.getInventory().isEmpty()){
+                    System.out.println("You have no items to sell.");
+                    break;
+                }
+                System.out.println("Your inventory: ");
+                for(Item i : player.getInventory()){
+                    int location = player.getInventory().indexOf(i) + 1;
+                    System.out.print("["+ location + "] " + i.describe());
+                }
+                int num = 900;
+                do{
+                    System.out.println("What item to sell (0 to exit)");
+                    try {
+                        num = Integer.parseInt(keyboard.next());
+                    } catch (Exception e) {
+                        //  Ignore
+                    }
+                } while (num == 900 || num < 0 || num > player.getInventory().size());
+                if(num == 0){
+                    break;
+                }
+                int index = num - 1;
+                Item toSell = player.getInventory().get(index);
+                int value = toSell.getGoldValue();
+                player.getInventory().remove(toSell);
+                player.addGold(value);
+
+                ShopItem asShopItem = new ShopItem(toSell.getItemType(), toSell.getValue(), toSell.getName(), toSell.getGoldValue(),toSell.getGoldValue() + 10 );
+                shopItems.add(asShopItem);
+                System.out.println("Sold " + toSell.getName() + " for " + value + " gold.");
+
+            }
+            case 3 -> {
+                inShop = false;
+                System.out.println("Left the shop...");
+            }
+        }}
+
     }
 
 }

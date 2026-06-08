@@ -63,6 +63,10 @@ public class Room {
 
     }
 
+    public String getName(){
+        return name;
+    }
+
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
@@ -118,6 +122,10 @@ public class Room {
 
     public void setIsShop(boolean b){
         isShop = b;
+    }
+
+    public boolean isShop(){
+        return isShop;
     }
 
     public void setIsBoss(boolean b){
