@@ -99,6 +99,10 @@ public class Player extends Entity {
             .orElse(null);
     }
 
+    public String getName(){
+        return name;
+    }
+
     public void addXp(int toAdd){
         int tempTotal = xp += toAdd;
         if(tempTotal >= 500){
@@ -108,6 +112,18 @@ public class Player extends Entity {
         } else {
             xp = tempTotal;
         }
+    }
+
+    public int getXp(){
+        return xp;
+    }
+
+    public int getMaxHp(){
+        return maxHp;
+    }
+
+    public int getDefence(){
+        return defense;
     }
 
     public void levelUp(){
