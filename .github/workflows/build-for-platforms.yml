@@ -57,7 +57,7 @@ jobs:
        contents: write
 
       steps:
-         - run: mkdir assets
+         - run: mkdir /assets
          - uses: actions/download-artifact@v8
            with:
             path: /assets
