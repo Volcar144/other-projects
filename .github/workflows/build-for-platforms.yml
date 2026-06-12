@@ -57,11 +57,11 @@ jobs:
        contents: write
 
       steps:
-         - run: mkdir /assets
+         - run: mkdir ./assets
          - uses: actions/download-artifact@v8
            with:
-            path: /assets
+            path: ./assets
          - uses: ncipollo/release-action@v1
            with:
-            artifacts: "/assets/*"
+            artifacts: "./assets/*"
             token: ${{ secrets.GITHUB_TOKEN }}
