@@ -1,4 +1,4 @@
-name: Platform Binaries
+name: Platform
 on:
  push:
     tags: ['v*']
@@ -61,7 +61,11 @@ jobs:
          - uses: actions/download-artifact@v8
            with:
             path: ./assets
+         - name: Flatten artifacts into files
+           run: |
+             mkdir -p ./assets_files
+             find ./assets -type f -exec cp {} ./assets_files/ \;
          - uses: ncipollo/release-action@v1
            with:
-            artifacts: "./assets/*"
+            artifacts: "./assets_files/*"
             token: ${{ secrets.GITHUB_TOKEN }}
