@@ -54,6 +54,8 @@ jobs:
 
    publish-to-release:
       runs-on: ubuntu-latest
+      permissions:
+       contents: write
 
       steps:
          - uses: actions/download-artifact@v8
@@ -62,3 +64,4 @@ jobs:
          - uses: ncipollo/release-action@v1
            with:
             artifacts: "/assets/*"
+            token: ${{ secrets.GITHUB_TOKEN }}
