@@ -11,5 +11,7 @@ public enum SaveTypes{
     LEVEL,
     PICKUP,
     HP,
+    WEAPON,
+    ARMOUR,
     DEFENSE;
 }

@@ -16,10 +16,14 @@ public class GameEngine {
     HashMap<String, Room> rooms;
     Room currentRoom;
     String command;
+    SaveManager saveManager;
+    ArrayList<ShopItem> shopItems;
 
 
     public void startGameLoop() {
         running = true;
+        saveManager = new SaveManager();
+        saveManager.initSaves();
 
         Scanner keyboard = new Scanner(System.in);
         System.out.println(AnsiColors.cyan("Loading map..."));
@@ -165,7 +169,7 @@ public class GameEngine {
                 player.printInventory();
             }
             case "save" -> {
-                //delegate to save/load manager
+                saveManager.save(rooms, player, currentRoom, shopItems);
             }
             case "load" -> {
                 //delegate to save/load manager
@@ -223,7 +227,7 @@ public class GameEngine {
     }
 
     private void handleShop(Room room, Scanner keyboard){
-        ArrayList<ShopItem> shopItems = new ArrayList<>();
+        shopItems = new ArrayList<>();
         shopItems.add(new ShopItem(ItemTypes.WEAPON, 02,"Broken Sword", 1,5));
         shopItems.add(new ShopItem(ItemTypes.WEAPON, 05,"Rusty Sword", 6,9));
         shopItems.add(new ShopItem(ItemTypes.WEAPON, 07,"Steel Sword", 13,19));

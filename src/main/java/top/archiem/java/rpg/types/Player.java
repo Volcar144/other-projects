@@ -125,6 +125,13 @@ public class Player extends Entity {
     public int getDefence(){
         return defense;
     }
+    public Item getEquippedArmour(){
+        return equippedArmour;
+    }
+
+    public Item getEquippedWeapon(){
+        return equippedWeapon;
+    }
 
     public void levelUp(){
         level ++;

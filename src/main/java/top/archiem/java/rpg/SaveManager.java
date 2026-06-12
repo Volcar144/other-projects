@@ -10,6 +10,7 @@ import java.util.HashMap;
 import top.archiem.java.rpg.types.Item;
 import top.archiem.java.rpg.types.Player;
 import top.archiem.java.rpg.types.Room;
+import top.archiem.java.rpg.types.Save;
 import top.archiem.java.rpg.types.SaveTypes;
 import top.archiem.java.rpg.types.ShopItem;
 
@@ -32,6 +33,8 @@ public class SaveManager{
     }
 
     public void save(HashMap<String, Room> rooms, Player player, Room currentRoom, ArrayList<ShopItem> shopItems){
+        Item equippedArmour = player.getEquippedArmour();
+        Item equippedWeapon = player.getEquippedWeapon();
         if(saveFile == null){
             System.out.println(AnsiColors.red("Save system not initialised"));
             return;
@@ -45,6 +48,8 @@ public class SaveManager{
             writer.println(SaveTypes.ATTACK.toString() + ":" + player.getAttack());
             writer.println(SaveTypes.DEFENSE.toString() + ":" + player.getDefence());
             writer.println(SaveTypes.GOLD + ":" + player.getGold());
+            writer.println(SaveTypes.WEAPON + ":" + equippedWeapon.getName() + ":" + equippedWeapon.getItemType().toString() + ":" + equippedWeapon.getValue() + ":" + equippedWeapon.getGoldValue());
+            writer.println(SaveTypes.ARMOUR + ":" + equippedArmour.getName() + ":" + equippedArmour.getItemType().toString() + ":" + equippedArmour.getValue() + ":" + equippedArmour.getGoldValue());
             for(Item i : player.getInventory()){
                 writer.println(SaveTypes.ITEM.toString() + ":" + i.getName() + ":" + i.getItemType().toString() + ":" + i.getValue() + ":" + i.getGoldValue());
             }
@@ -58,10 +63,22 @@ public class SaveManager{
                     }
                 }
             }
+            for(ShopItem i : shopItems){
+                writer.println(SaveTypes.SHOPITEM.toString() + ":" + i.getName() + ":" + i.getItemType().toString() + ":" + i.getValue() + ":" + i.getGoldValue() + ":" + i.getCost());
+            }
             System.out.println(AnsiColors.green("Saved successfully to " + saveFile.getCanonicalPath()));
         } catch (Exception e){
 
+        } 
+    }
+
+    public Save load(){
+        if(saveFile == null){
+            System.out.println("Save system not initialised");
+            return null;
         }
+
+        return null;
         
     }
 
