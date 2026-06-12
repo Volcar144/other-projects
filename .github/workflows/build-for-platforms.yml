@@ -1,4 +1,4 @@
-name: Github Build for platforms
+name: Platform Binaries
 on:
  push:
     tags: ['v*']
