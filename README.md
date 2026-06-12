@@ -7,12 +7,12 @@ A simple but fun console text-based rpg coded enitrely in java.
 There are several different methods to run the app:
 
 ### JAR File
-    The jar runs on the JVM so if you do not have java installed, install it [here](https://adoptium.net/en-GB/temurin/releases) choose 21 and the platform you want to run the game on. Afterwards, open the terminal of your choice and paste this:
-    ```bash
-        curl -O -L https://github.com/Volcar144/other-projects/releases/download/latest/rpg-1.jar && java -jar rpg-1.jar
-    ```
+The jar runs on the JVM so if you do not have java installed, install it [here](https://adoptium.net/en-GB/temurin/releases) choose 21 and the platform you want to run the game on. Afterwards, open the terminal of your choice and paste this:
+```bash
+    curl -O -L https://github.com/Volcar144/other-projects/releases/download/latest/rpg-1.jar && java -jar rpg-1.jar
+```
 ### Windows binry
-    Download and run the `.exe` installer from the [latest release](https://github.com/Volcar144/other-projects/releases/latest). Once installed, launch **JaRpg** from the Start Menu — a console window will open automatically.
+Download and run the `.exe` installer from the [latest release](https://github.com/Volcar144/other-projects/releases/latest). Once installed, launch **JaRpg** from the Start Menu — a console window will open automatically.
 
 ### MacOS
 Download the `.dmg` from the [latest release](https://github.com/Volcar144/other-projects/releases/latest), open it, and drag the app to your Applications folder. Then run it from your terminal:
@@ -21,11 +21,11 @@ Download the `.dmg` from the [latest release](https://github.com/Volcar144/other
 ```
 
 ### Linux
-    Download the `.deb` from the [latest release](https://github.com/Volcar144/other-projects/releases/latest) and install it:
-    ```bash
+Download the `.deb` from the [latest release](https://github.com/Volcar144/other-projects/releases/latest) and install it:
+```bash
     sudo dpkg -i JaRpg_*.deb
     JaRpg
-    ```
+```
     
 ## Features
 
