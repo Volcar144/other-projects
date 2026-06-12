@@ -4,7 +4,7 @@ A simple but fun console text-based rpg coded enitrely in java.
 
 ## Installation
 
-There are several different methods to run the app
+There are several different methods to run the app:
 
 ### JAR File
     The jar runs on the JVM so if you do not have java installed, install it [here](https://adoptium.net/en-GB/temurin/releases) choose 21 and the platform you want to run the game on. Afterwards, open the terminal of your choice and paste this:
