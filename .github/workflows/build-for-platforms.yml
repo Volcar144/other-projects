@@ -2,6 +2,8 @@ name: Github Build for platforms
 on:
  push:
     tags: ['v*']
+ workflow_dispatch:
+
 
 jobs:
    build:
