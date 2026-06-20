@@ -115,24 +115,31 @@ public class BattleSystem{
                 }
                 case 3 -> {
                     System.out.println(AnsiColors.cyan("Potions: "));
-                    for(Item i : player.getInventory()){
-                        if(i.getItemType() == ItemTypes.POTION){
-                            int index = player.getInventory().indexOf(i) + 1;
-                            System.out.print(AnsiColors.yellow("[" + index + "] ") + AnsiColors.bold(i.getName()) + " ");
+                    boolean hasType = player.getInventory().stream()
+                            .anyMatch(item -> item.getItemType() == ItemTypes.POTION);
+                    if (hasType) {
+                        for(Item i : player.getInventory()){
+                            if(i.getItemType() == ItemTypes.POTION){
+                                int index = player.getInventory().indexOf(i) + 1;
+                                System.out.print(AnsiColors.yellow("[" + index + "] ") + AnsiColors.bold(i.getName()) + " ");
+                            }
                         }
-                    }
-                    System.out.println(" ");
-                    int index = 0;
-                    while (index == 0 || index > player.getInventory().size() || player.getInventory().get(index - 1) == null){
-                        System.out.println(AnsiColors.blue("What potion do you want to take: "));
-                        try {
-                            index = Integer.parseInt(input.next());
-                        } catch (Exception e) {
-                            System.out.println(AnsiColors.red("Please pick a valid potion."));
+
+                        System.out.println(" ");
+                        int index = 0;
+                        while (index == 0 || index > player.getInventory().size() || player.getInventory().get(index - 1) == null){
+                            System.out.println(AnsiColors.blue("What potion do you want to take: "));
+                            try {
+                                index = Integer.parseInt(input.next());
+                            } catch (Exception e) {
+                                System.out.println(AnsiColors.red("Please pick a valid potion."));
+                            }
                         }
+                        int potionNum = index - 1;
+                        player.usePotion(player.getInventory().get(potionNum));
+                    } else {
+                        System.out.println(AnsiColors.red("You have no potions in your inventory"));
                     }
-                    int potionNum = index - 1;
-                    player.usePotion(player.getInventory().get(potionNum));
                 }
                 case 4 -> {
                     if(!room.isBossRoom()){
