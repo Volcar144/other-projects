@@ -49,6 +49,7 @@ jobs:
                *.dmg
                *.deb
                *.jar
+               target/*-1.jar
 
    publish-to-release:
       runs-on: ubuntu-latest
