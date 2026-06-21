@@ -15,11 +15,15 @@ public class BattleSystem{
     public static boolean runBattle(Room room, Scanner input, Player player){
         ArrayList<Enemy> enemies = room.getEnemies();
         System.out.println(AnsiColors.red(AnsiColors.bold("A battle has started!")));
+        System.out.println("You are fighting: ");
+        for(Enemy e : enemies){
+            System.out.println(AnsiColors.yellow(e.getName()));
+        }
         while(room.hasAliveEnemies()){
             if(player.getHp() == 0){
                 return false;
-            } 
-
+            }
+            System.out.println("Your health: ");
             System.out.println(player.hpBar());
             System.out.println(AnsiColors.yellow("It is your turn, pick an action: "));
             System.out.println(AnsiColors.cyan("[1] Attack [2] Heavy Strike [3] Use Potion [4] Flee"));

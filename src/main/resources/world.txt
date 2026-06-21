@@ -1,5 +1,5 @@
 START:Dungeon Entrance
-ROOM:Dungeon Entrance:A cold stone archway. Torches flicker on damp walls.
+ROOM:Dungeon Entrance:through a cold stone archway. Torches flicker on damp walls.
 ROOM:Forest Path:A narrow path between twisted trees, littered with ancient bones.
 ROOM:Merchant's Hut:A ramshackle hut. A hooded figure watches you. The air smells of herbs and smoke.
 ROOM:Cave Entrance:A dark cave mouth. The air smells of iron and damp stone.

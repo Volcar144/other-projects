@@ -2,6 +2,7 @@ package top.archiem.java.rpg;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 import top.archiem.java.rpg.types.Item;
@@ -54,59 +55,34 @@ public class GameEngine {
         String[] part = input.split(" ",2);
 
         switch(part[0].toLowerCase()){
-            case "go" -> {
-                String direction = part[1];
-                if(!currentRoom.connectionExists(direction)){
-                    System.out.println(AnsiColors.red("This direction does not exist!"));
-                    return;
-                }
-                Room nextRoom = currentRoom.getConnectedRoom(direction);
-                boolean move = false;
-                if(nextRoom.hasEnemies() && nextRoom.isBossRoom()){
-                    BattleSystem.runBattle(nextRoom, keyboard, player);
-                    if(!player.isAlive()){
-                        System.out.println(AnsiColors.red("You died..."));
-                        running = false;
-                    } else {
-                        System.out.println(AnsiColors.green("You beat the boss, you win!"));
-                        running = false;
-                    }
-                }
-                if(nextRoom.hasEnemies()){
-                    move = BattleSystem.runBattle(nextRoom, keyboard, player);
-                }
-                
-                if(!move){
-                    if(!player.isAlive()){
-                        System.out.println(AnsiColors.red("You died..."));
-                        running = false;
-                    }
-                    currentRoom = nextRoom;
-                    currentRoom.describe();
-                }
-                if(currentRoom.isShop()){
-                    handleShop(currentRoom, keyboard);
-                }
+            case "north" -> {
+                String direction = "north";
+                handleRoom(keyboard, direction);
+            }
+            case "south" -> {
+                String direction = "south";
+                handleRoom(keyboard, direction);
+            }
+            case "east" -> {
+                String direction = "east";
+                handleRoom(keyboard, direction);
+            }
+            case "west" -> {
+                String direction = "west";
+                handleRoom(keyboard, direction);
             }
             case "look" -> {
                 currentRoom.describe();
             }
             case "search" -> {
+                List<Item> toRemove = new ArrayList<>();
                 currentRoom.search();
-            }
-            case "take" -> {
-                ArrayList<Item> items = currentRoom.getItems();
-                Item found = items.stream()
-                .filter(item -> item.getName().equalsIgnoreCase(part[1]))
-                .findFirst()
-                .orElse(null);
-                if(found == null){
-                    System.out.println(AnsiColors.red("This item is nowhere to be seen!"));
-                    return;
+                for(Item i: currentRoom.getItems()){
+                    player.pickupItem(i);
+                    System.out.println(AnsiColors.green("You have picked up: " + i.describe()));
+                    toRemove.add(i);
                 }
-                player.pickupItem(found);
-                currentRoom.removeItem(found);
-                System.out.println(AnsiColors.green("You have picked up: " + found.describe()));
+                currentRoom.getItems().removeAll(toRemove);
             }
             case "drop" -> {
                 Item toDrop = player.getItemByName(part[1]);
@@ -158,6 +134,8 @@ public class GameEngine {
                     return;
                 }
                 player.usePotion(toUse);
+                Integer value = toUse.getValue();
+                System.out.println(AnsiColors.green("You have used the " + AnsiColors.bold(toUse.getName()) + " and have healed " + AnsiColors.bold( value.toString() + " health" )));
             }
             case "stats" -> {
                 player.printStats();
@@ -181,48 +159,67 @@ public class GameEngine {
                     System.out.println(AnsiColors.red("Current room is not a shop!"));
                 }
             }
-            case "help" -> {
-                System.out.println(AnsiColors.cyan("==== HELP MENU ===="));
-                System.out.println("commands:");
-                System.out.println("    " + AnsiColors.yellow("go [room]") + " - go to a room");
-                System.out.println("    " + AnsiColors.yellow("look") + " - look around");
-                System.out.println("    " + AnsiColors.yellow("search") + " - look for items");
-                System.out.println("    " + AnsiColors.yellow("take [item]") + " - take an item from the room");
-                System.out.println("    " + AnsiColors.yellow("drop [item]") + " - drop an item from your inventory onto the floor");
-                System.out.println("    " + AnsiColors.yellow("equip [item]") + " - equip an item instead of your already equipped item");
-                System.out.println("    " + AnsiColors.yellow("use [potion]") + " - use a potion");
-                System.out.println("    " + AnsiColors.yellow("stats") + " - Show your stats");
-                System.out.println("    " + AnsiColors.yellow("inv/i") + " - show your inventory");
-                System.out.println("    " + AnsiColors.yellow("save") + " - save(WIP)");
-                System.out.println("    " + AnsiColors.yellow("load") + " - load your save (WIP)");
-                System.out.println("    " + AnsiColors.yellow("quit") + " - exit the game");
-                System.out.println("    " + AnsiColors.yellow("help") + " - print this message");
-                System.out.println(AnsiColors.cyan("==================="));
-            }
             case "quit" -> {
                 running = false;
                 System.out.println(AnsiColors.red("Quitting..."));
             }
             case null, default -> {
-                System.out.println(AnsiColors.cyan("==== HELP MENU ===="));
-                System.out.println("commands:");
-                System.out.println("    " + AnsiColors.yellow("go [room]") + " - go to a room");
-                System.out.println("    " + AnsiColors.yellow("look") + " - look around");
-                System.out.println("    " + AnsiColors.yellow("search") + " - look for items");
-                System.out.println("    " + AnsiColors.yellow("take [item]") + " - take an item from the room");
-                System.out.println("    " + AnsiColors.yellow("drop [item]") + " - drop an item from your inventory onto the floor");
-                System.out.println("    " + AnsiColors.yellow("equip [item]") + " - equip an item instead of your already equipped item");
-                System.out.println("    " + AnsiColors.yellow("use [potion]") + " - use a potion");
-                System.out.println("    " + AnsiColors.yellow("stats") + " - Show your stats");
-                System.out.println("    " + AnsiColors.yellow("inv/i") + " - show your inventory");
-                System.out.println("    " + AnsiColors.yellow("save") + " - save(WIP)");
-                System.out.println("    " + AnsiColors.yellow("load") + " - load your save (WIP)");
-                System.out.println("    " + AnsiColors.yellow("quit") + " - exit the game");
-                System.out.println("    " + AnsiColors.yellow("shop") + " - open the shop if in a shop room.");
-                System.out.println("    " + AnsiColors.yellow("help") + " - print this message");
-                System.out.println(AnsiColors.cyan("==================="));
+                printHelp();
             }
 
+        }
+    }
+
+    private void printHelp() {
+        System.out.println(AnsiColors.cyan("==== HELP MENU ===="));
+        System.out.println("commands:");
+        System.out.println("    " + AnsiColors.yellow("north/south/east/west") + " - go to a room");
+        System.out.println("    " + AnsiColors.yellow("look") + " - look around");
+        System.out.println("    " + AnsiColors.yellow("search") + " - look for items");
+        System.out.println("    " + AnsiColors.yellow("drop [item]") + " - drop an item from your inventory onto the floor");
+        System.out.println("    " + AnsiColors.yellow("equip [item]") + " - equip an item instead of your already equipped item");
+        System.out.println("    " + AnsiColors.yellow("use [potion]") + " - use a potion");
+        System.out.println("    " + AnsiColors.yellow("stats") + " - Show your stats");
+        System.out.println("    " + AnsiColors.yellow("inv/i") + " - show your inventory");
+        System.out.println("    " + AnsiColors.yellow("save") + " - save(WIP)");
+        System.out.println("    " + AnsiColors.yellow("load") + " - load your save (WIP)");
+        System.out.println("    " + AnsiColors.yellow("quit") + " - exit the game");
+        System.out.println("    " + AnsiColors.yellow("shop") + " - open the shop if in a shop room.");
+        System.out.println("    " + AnsiColors.yellow("help") + " - print this message");
+        System.out.println(AnsiColors.cyan("==================="));
+    }
+
+    private void handleRoom(Scanner keyboard, String direction) {
+        if(!currentRoom.connectionExists(direction)){
+            System.out.println(AnsiColors.red("This direction does not exist!"));
+            return;
+        }
+        Room nextRoom = currentRoom.getConnectedRoom(direction);
+        boolean move = false;
+        if(nextRoom.hasEnemies() && nextRoom.isBossRoom()){
+            BattleSystem.runBattle(nextRoom, keyboard, player);
+            if(!player.isAlive()){
+                System.out.println(AnsiColors.red("You died..."));
+                running = false;
+            } else {
+                System.out.println(AnsiColors.green("You beat the boss, you win!"));
+                running = false;
+            }
+        }
+        if(nextRoom.hasEnemies()){
+            move = BattleSystem.runBattle(nextRoom, keyboard, player);
+        }
+
+        if(!move){
+            if(!player.isAlive()){
+                System.out.println(AnsiColors.red("You died..."));
+                running = false;
+            }
+            currentRoom = nextRoom;
+            currentRoom.describe();
+        }
+        if(currentRoom.isShop()){
+            handleShop(currentRoom, keyboard);
         }
     }
 
@@ -246,6 +243,7 @@ public class GameEngine {
         while(inShop){
         int choice = 0;
         do{
+            System.out.println(AnsiColors.yellow("You have " + player.getGold() + " gold."));
             System.out.println(AnsiColors.blue("What would you like to do: "));
             System.out.println(AnsiColors.yellow("[1] Buy | [2] Sell | [3] exit"));
             try {

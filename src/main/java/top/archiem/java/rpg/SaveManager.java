@@ -27,7 +27,7 @@ public class SaveManager{
                 FileWriter tempWriter = new FileWriter("save.txt");
                 saveFile = new File("save.txt");
             } catch (IOException ex){
-                System.out.println("Failed all attempts to load save file");
+                System.out.println(AnsiColors.red("Failed all attempts to load save file."));
             }
         }
     }
