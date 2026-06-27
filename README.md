@@ -11,7 +11,8 @@ The jar runs on the JVM so if you do not have java installed, install it [here](
 ```bash
     curl -O -L https://github.com/Volcar144/other-projects/releases/download/v1.1.4/rpg-1.jar && java -jar rpg-1.jar
 ```
-### Windows binry
+### Windows binry (Depricated)
+### This no longer works for some reason
 Download and run the `.exe` installer from the [latest release](https://github.com/Volcar144/other-projects/releases/latest). Once installed, launch **JaRpg** from the Start Menu — a console window will open automatically.
 
 ### MacOS
