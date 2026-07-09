@@ -52,7 +52,13 @@ public class GameEngine {
     }
 
     private void parseCommand(String input, Scanner keyboard){
-        String[] part = input.split(" ",2);
+        String help = "help";
+        String[] part = {help};
+        try {
+            part = input.split(" ",2);
+        } catch (ArrayIndexOutOfBoundsException e){
+            printHelp();
+        }
 
         switch(part[0].toLowerCase()){
             case "north" -> {
@@ -85,57 +91,69 @@ public class GameEngine {
                 currentRoom.getItems().removeAll(toRemove);
             }
             case "drop" -> {
-                Item toDrop = player.getItemByName(part[1]);
+                try {
+                    Item toDrop = player.getItemByName(part[1]);
 
-                if(toDrop == null){
-                    System.out.println(AnsiColors.red("This item is not in your inventory."));
-                    return;
-                }
-
-                player.dropItem(toDrop);
-                currentRoom.addItem(toDrop);
-
-                System.out.println(AnsiColors.yellow("You have dropped " + toDrop.getName()));
-            }
-            case "equip" -> {
-                Item toEquip = player.getItemByName(part[1]);
-
-                if(toEquip == null){
-                    System.out.println(AnsiColors.red("This item is not in your inventory!"));
-                    return;
-                }
-
-                switch(toEquip.getItemType()){
-                    case WEAPON -> {
-                        player.equipWeapon(toEquip);
-                    }
-                    case ARMOUR -> {
-                        player.equipArmour(toEquip);
-                    }
-                    case POTION -> {
-                        System.out.println(AnsiColors.red("You cannot equip a potion"));
+                    if(toDrop == null){
+                        System.out.println(AnsiColors.red("This item is not in your inventory."));
                         return;
                     }
-                }
 
-                System.out.println(AnsiColors.green("You have equipped " + AnsiColors.bold(toEquip.getName())));
+                    player.dropItem(toDrop);
+                    currentRoom.addItem(toDrop);
+
+                    System.out.println(AnsiColors.yellow("You have dropped " + toDrop.getName()));
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    printHelp();
+                }
+            }
+            case "equip" -> {
+                try {
+                    Item toEquip = player.getItemByName(part[1]);
+
+                    if(toEquip == null){
+                        System.out.println(AnsiColors.red("This item is not in your inventory!"));
+                        return;
+                    }
+
+                    switch(toEquip.getItemType()){
+                        case WEAPON -> {
+                            player.equipWeapon(toEquip);
+                        }
+                        case ARMOUR -> {
+                            player.equipArmour(toEquip);
+                        }
+                        case POTION -> {
+                            System.out.println(AnsiColors.red("You cannot equip a potion"));
+                            return;
+                        }
+                    }
+
+                    System.out.println(AnsiColors.green("You have equipped " + AnsiColors.bold(toEquip.getName())));
+                } catch (ArrayIndexOutOfBoundsException e) {
+                   printHelp();
+                }
 
             }
             case "use" -> {
-                Item toUse = player.getItemByName(part[1]);
+                try {
+                    Item toUse = player.getItemByName(part[1]);
 
-                if(toUse == null){
-                    System.out.println(AnsiColors.red("You do not have this item in your inventory!"));
-                    return;
-                }
+                    if(toUse == null){
+                        System.out.println(AnsiColors.red("You do not have this item in your inventory!"));
+                        return;
+                    }
 
-                if(toUse.getItemType() != ItemTypes.POTION){
-                    System.out.println(AnsiColors.red("You can only use a potion!"));
-                    return;
+                    if(toUse.getItemType() != ItemTypes.POTION){
+                        System.out.println(AnsiColors.red("You can only use a potion!"));
+                        return;
+                    }
+                    player.usePotion(toUse);
+                    Integer value = toUse.getValue();
+                    System.out.println(AnsiColors.green("You have used the " + AnsiColors.bold(toUse.getName()) + " and have healed " + AnsiColors.bold( value.toString() + " health" )));
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    printHelp();
                 }
-                player.usePotion(toUse);
-                Integer value = toUse.getValue();
-                System.out.println(AnsiColors.green("You have used the " + AnsiColors.bold(toUse.getName()) + " and have healed " + AnsiColors.bold( value.toString() + " health" )));
             }
             case "stats" -> {
                 player.printStats();

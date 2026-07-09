@@ -1,11 +1,9 @@
 package top.archiem.java.rpg;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import top.archiem.java.rpg.types.Item;
 import top.archiem.java.rpg.types.Player;
@@ -68,11 +66,18 @@ public class SaveManager{
             }
             System.out.println(AnsiColors.green("Saved successfully to " + saveFile.getCanonicalPath()));
         } catch (Exception e){
-
+            // Silently throw exceptions
         } 
     }
 
     public Save load(){
+        List<String> lines = new ArrayList<>();
+        Save save = new Save();
+        Player savePlayer = save.getPlayer();
+        HashMap<String, Room> rooms = save.getUpdatedRooms();
+        ArrayList<ShopItem> shopItems = save.getShopItems();
+        Room currentRoom = save.getCurrentRoom();
+
         if(saveFile == null){
             System.out.println("Save system not initialised");
             return null;
