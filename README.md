@@ -38,11 +38,6 @@ Download the `.deb` from the [latest release](https://github.com/Volcar144/other
 - Combat system
 - Room-based movement
 
-
-## Demo
-![Untitled-design.gif](https://i.postimg.cc/Nf9dq8hq/Untitled-design.gif)
-
-
 ## Authors
 
 - [@Volcar144](https://www.github.com/volcar144)
