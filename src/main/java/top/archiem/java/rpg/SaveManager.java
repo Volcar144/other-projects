@@ -130,7 +130,9 @@ public class SaveManager {
                 switch (type) {
                     case NAME -> savePlayer.setName(stringPart(parts, 1, "Name", lineNo));
                     case XP -> savePlayer.setXp(intPart(parts, 1, "XP", lineNo));
-                    case HP -> savePlayer.setHp(intPart(parts, 1, "HP", lineNo));
+                    case HP -> {
+                        savePlayer.setHp(intPart(parts, 1, "HP", lineNo));
+                    }
                     case DEFENSE -> savePlayer.setDefence(intPart(parts, 1, "Defense", lineNo));
                     case GOLD -> savePlayer.setGold(intPart(parts, 1, "Gold", lineNo));
                     case LEVEL -> savePlayer.setLevel(intPart(parts, 1, "Level", lineNo));
