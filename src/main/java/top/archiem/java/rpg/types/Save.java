@@ -24,8 +24,21 @@ public class Save {
         this.shopItems = shopItems;
     }
 
-    public Save(){
+    public Save(){}
 
+    @Override
+    public String toString() {
+        String playerStr = player == null
+                ? "null"
+                : player.getName() + " (Lv " + player.getLevel() + ", HP " + player.getHp() + "/" + player.getMaxHp() + ", " + player.getGold() + " gold)";
+        String currentRoomStr = currentRoom == null ? "null" : currentRoom.getName();
+        String roomsStr = updatedRooms == null ? "null" : updatedRooms.keySet().toString();
+        String shopStr = shopItems == null ? "null" : shopItems.size() + " items";
+
+        return "Save{player=" + playerStr
+                + ", currentRoom=" + currentRoomStr
+                + ", rooms=" + roomsStr
+                + ", shopItems=" + shopStr + "}";
     }
 
     public HashMap<String, Room> getUpdatedRooms() {

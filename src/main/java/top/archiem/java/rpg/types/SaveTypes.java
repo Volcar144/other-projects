@@ -13,5 +13,6 @@ public enum SaveTypes{
     HP,
     WEAPON,
     ARMOUR,
-    DEFENSE;
+    DEFENSE,
+    CURRENT;
 }

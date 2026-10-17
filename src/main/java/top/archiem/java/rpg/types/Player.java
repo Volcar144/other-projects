@@ -30,6 +30,10 @@ public class Player extends Entity {
         return hp;
     }
 
+    public void setHp(int hp){
+        this.hp = hp;
+    }
+
     public ArrayList<Item> getInventory(){
         return inventory;
     }
@@ -125,9 +129,13 @@ public class Player extends Entity {
     public int getDefence(){
         return defense;
     }
-    public Item getEquippedArmour(){
-        return equippedArmour;
-    }
+
+    public void setDefence(int defence){this.defense = defence;}
+
+    public void setAttack(int attack){this.attack = attack;}
+
+    public Item getEquippedArmour(){return equippedArmour;}
+
 
     public Item getEquippedWeapon(){
         return equippedWeapon;
@@ -155,6 +163,34 @@ public class Player extends Entity {
     }
     public void removeGold(int toRemove){
         gold -= toRemove;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void setInventory(ArrayList<Item> inventory) {
+        this.inventory = inventory;
+    }
+
+    public void setEquippedWeapon(Item equippedWeapon) {
+        this.equippedWeapon = equippedWeapon;
+    }
+
+    public void setEquippedArmour(Item equippedArmour) {
+        this.equippedArmour = equippedArmour;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void printInventory(){

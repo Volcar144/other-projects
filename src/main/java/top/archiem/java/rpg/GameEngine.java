@@ -1,15 +1,13 @@
 package top.archiem.java.rpg;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import top.archiem.java.rpg.types.Item;
-import top.archiem.java.rpg.types.ItemTypes;
-import top.archiem.java.rpg.types.Player;
-import top.archiem.java.rpg.types.Room;
-import top.archiem.java.rpg.types.ShopItem;
+import top.archiem.java.rpg.errors.SaveLoadException;
+import top.archiem.java.rpg.types.*;
 
 public class GameEngine {
     Player player;
@@ -21,7 +19,21 @@ public class GameEngine {
     ArrayList<ShopItem> shopItems;
 
 
+
     public void startGameLoop() {
+        shopItems = new ArrayList<>();
+        shopItems.add(new ShopItem(ItemTypes.WEAPON, 02,"Broken Sword", 1,5));
+        shopItems.add(new ShopItem(ItemTypes.WEAPON, 05,"Rusty Sword", 6,9));
+        shopItems.add(new ShopItem(ItemTypes.WEAPON, 07,"Steel Sword", 13,19));
+        shopItems.add(new ShopItem(ItemTypes.WEAPON, 10,"Broadsword", 20,30));
+        shopItems.add(new ShopItem(ItemTypes.WEAPON, 15,"Enchanted Sword", 27,40));
+        shopItems.add(new ShopItem(ItemTypes.ARMOUR, 04,"Leather Armour", 7,10));
+        shopItems.add(new ShopItem(ItemTypes.ARMOUR, 07,"Chainmail Armour", 10,20));
+        shopItems.add(new ShopItem(ItemTypes.ARMOUR, 10,"Plate Armour", 20,30));
+        shopItems.add(new ShopItem(ItemTypes.POTION, 15,"Small Potion", 10,20));
+        shopItems.add(new ShopItem(ItemTypes.POTION, 25,"Medium Potion", 15,25));
+        shopItems.add(new ShopItem(ItemTypes.POTION, 50,"Large Potion", 20,30));
+        shopItems.add(new ShopItem(ItemTypes.POTION, 100,"Huge Potion", 30,40));
         running = true;
         saveManager = new SaveManager();
         saveManager.initSaves();
@@ -168,7 +180,18 @@ public class GameEngine {
                 saveManager.save(rooms, player, currentRoom, shopItems);
             }
             case "load" -> {
-                //delegate to save/load manager
+                try{
+                    Save save = saveManager.load(rooms);
+                    shopItems = save.getShopItems();
+                    currentRoom = save.getCurrentRoom();
+                    player = save.getPlayer();
+                    rooms = save.getUpdatedRooms();
+                    System.out.println(save.toString());
+                }catch (SaveLoadException se){
+                    System.out.println(AnsiColors.red("Load failed! " + se.getMessage()));
+                } catch (Exception e) {
+                    System.out.println(AnsiColors.red("Load failed! " + e.getMessage()));
+                }
             }
             case "shop" -> {
                 if(currentRoom.isShop()){
@@ -242,19 +265,6 @@ public class GameEngine {
     }
 
     private void handleShop(Room room, Scanner keyboard){
-        shopItems = new ArrayList<>();
-        shopItems.add(new ShopItem(ItemTypes.WEAPON, 02,"Broken Sword", 1,5));
-        shopItems.add(new ShopItem(ItemTypes.WEAPON, 05,"Rusty Sword", 6,9));
-        shopItems.add(new ShopItem(ItemTypes.WEAPON, 07,"Steel Sword", 13,19));
-        shopItems.add(new ShopItem(ItemTypes.WEAPON, 10,"Broadsword", 20,30));
-        shopItems.add(new ShopItem(ItemTypes.WEAPON, 15,"Enchanted Sword", 27,40));
-        shopItems.add(new ShopItem(ItemTypes.ARMOUR, 04,"Leather Armour", 7,10));
-        shopItems.add(new ShopItem(ItemTypes.ARMOUR, 07,"Chainmail Armour", 10,20));
-        shopItems.add(new ShopItem(ItemTypes.ARMOUR, 10,"Plate Armour", 20,30));
-        shopItems.add(new ShopItem(ItemTypes.POTION, 15,"Small Potion", 10,20));
-        shopItems.add(new ShopItem(ItemTypes.POTION, 25,"Medium Potion", 15,25));
-        shopItems.add(new ShopItem(ItemTypes.POTION, 50,"Large Potion", 20,30));
-        shopItems.add(new ShopItem(ItemTypes.POTION, 100,"Huge Potion", 30,40));
 
         System.out.println(AnsiColors.green("Welcome to the " + AnsiColors.bold(room.getName()) + ", a shop"));
         boolean inShop = true;

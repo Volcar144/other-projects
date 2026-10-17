@@ -5,7 +5,4 @@ public class Main {
         final GameEngine engine = new GameEngine();
         engine.startGameLoop();
     }
-
-
-
 }
