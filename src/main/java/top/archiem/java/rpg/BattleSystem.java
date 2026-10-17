@@ -9,6 +9,7 @@ import top.archiem.java.rpg.types.Item;
 import top.archiem.java.rpg.types.ItemTypes;
 import top.archiem.java.rpg.types.Player;
 import top.archiem.java.rpg.types.Room;
+import top.archiem.java.rpg.helpers.Animations;
 import top.archiem.java.rpg.helpers.ConsoleTyper;
 
 public class BattleSystem {
@@ -35,6 +36,7 @@ public class BattleSystem {
         for (Enemy e : enemies) {
             narrate(tp, AnsiColors.yellow(e.getName()));
         }
+        Animations.showEnemies(tp, enemies.stream().map(Enemy::getName).toList());
         while (room.hasAliveEnemies()) {
             if (player.getHp() == 0) {
                 return false;
@@ -73,10 +75,12 @@ public class BattleSystem {
                     Enemy toFight = enemies.get(chosen);
 
                     int damage = rollDamage(player.getAttack()).intValue();
+                    int enemyHpBefore = toFight.getHp();
                     int dealt = toFight.takeDamage(damage);
+                    Animations.slash();
                     narrate(tp, AnsiColors.green("You dealt: " + dealt + " damage"));
                     narrate(tp, AnsiColors.yellow("Enemy: "));
-                    msg(tp, toFight.hpBar());
+                    Animations.drainBar(enemyHpBefore, toFight.getHp(), toFight.getMaxHp());
                     if (!toFight.isAlive()) {
                         narrate(tp, AnsiColors.green("You have defeated " + AnsiColors.bold(toFight.getName())));
                         Item loot = toFight.rollLoot();
@@ -118,10 +122,12 @@ public class BattleSystem {
                     int damage = rounded.intValue();
                     int taken = damage / 10;
 
+                    int enemyHpBefore = toFight.getHp();
                     int dealt = toFight.takeDamage(damage);
                     int doneTook = player.takeDamage(taken);
+                    Animations.heavySlash();
                     narrate(tp, AnsiColors.green("You dealt: " + dealt + " damage but took " + doneTook + " damage"));
-                    msg(tp, toFight.hpBar());
+                    Animations.drainBar(enemyHpBefore, toFight.getHp(), toFight.getMaxHp());
                     if (!toFight.isAlive()) {
                         narrate(tp, AnsiColors.green("You have defeated " + AnsiColors.bold(toFight.getName())));
                         Item loot = toFight.rollLoot();
@@ -192,8 +198,10 @@ public class BattleSystem {
                 Long preDamage = rollDamage(e.getAttack());
                 int damage = preDamage.intValue();
 
+                int playerHpBefore = player.getHp();
                 int taken = player.takeDamage(damage);
                 narrate(tp, AnsiColors.red(e.getName() + " dealt you " + taken + " damage."));
+                Animations.damageFlash(playerHpBefore, player.getHp(), player.getMaxHp());
                 if (player.getHp() == 0) {
                     return false;
                 }
