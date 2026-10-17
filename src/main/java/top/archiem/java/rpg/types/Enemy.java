@@ -45,6 +45,10 @@ public class Enemy extends Entity{
         return hp;
     }
 
+    public int getMaxHp() {
+        return maxHp;
+    }
+
     public int getAttack() {
         return attack;
     }

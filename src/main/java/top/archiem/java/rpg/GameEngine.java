@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import top.archiem.java.rpg.errors.SaveLoadException;
 import top.archiem.java.rpg.types.*;
+import top.archiem.java.rpg.helpers.Animations;
 import top.archiem.java.rpg.helpers.ConsoleTyper;
 
 public class GameEngine {
@@ -43,11 +44,13 @@ public class GameEngine {
 
         Scanner keyboard = new Scanner(System.in);
 
+        Animations.clearScreen();
         msg(AnsiColors.cyan("Loading map..."));
         rooms = WorldLoader.loadWorld("world.txt");
         currentRoom = rooms.get(WorldLoader.getStartRoom());
 
         msg(AnsiColors.bold(AnsiColors.blue(WorldLoader.getStartRoom().toString())));
+        Animations.titleScreen(tp);
         narrate(AnsiColors.green("Welcome to " + AnsiColors.bold("jaRpg") + ", an interactive dungeon crawler game"));
         msg(AnsiColors.yellow("To start, create a name for your player: "));
         String name = keyboard.nextLine().trim();
